@@ -33,18 +33,10 @@ const fetchCities = async (query) => {
 
 // Обновление списка городов для автозаполнения
 const updateCityDatalist = (cities) => {
-  const input = document.getElementById('weatherCity');
-  input.setAttribute('list', 'cities');
-  let datalist = document.getElementById('cities');
+  const datalist = document.getElementById('cities');
   
-  // Проверяем, существует ли datalist
-  if (!datalist) {
-    datalist = document.createElement('datalist');
-    datalist.id = 'cities';
-    input.parentNode.appendChild(datalist);
-  }
-
-  datalist.innerHTML = ''; // Очищаем старые данные
+  // Очищаем старые данные
+  datalist.innerHTML = ''; 
   
   // Если есть города, добавляем их в datalist
   if (cities.length > 0) {
