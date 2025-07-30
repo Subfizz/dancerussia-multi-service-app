@@ -10,12 +10,10 @@
   <main>
     <h1>Прогноз погоды</h1>
 
-<form id="weatherForm">
-  <input list="cities" type="text" id="weatherCity" placeholder="Введите город..." required />
-  <datalist id="cities"></datalist>
-  <button type="submit">Узнать погоду</button>
-</form>
-
+    <form id="weatherForm">
+      <input type="text" id="weatherCity" placeholder="Введите город..." required autocomplete="off" />
+      <button type="submit">Узнать погоду</button>
+    </form>
 
     <div class="results" id="weatherResult"></div>
   </main>
