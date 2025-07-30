@@ -11,11 +11,12 @@
     <h1>Прогноз погоды</h1>
 
     <form id="weatherForm">
-      <input type="text" id="weatherCity" placeholder="Введите город..." required autocomplete="off" list="cities" />
+      <input type="text" id="weatherCity" placeholder="Введите город..." required autocomplete="off" />
       <button type="submit">Узнать погоду</button>
     </form>
 
-    <datalist id="cities"></datalist>
+    <!-- Кастомный выпадающий список -->
+    <ul id="citiesList" class="cities-list"></ul>
 
     <div class="results" id="weatherResult"></div>
   </main>
