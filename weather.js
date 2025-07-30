@@ -45,7 +45,7 @@ const updateCitiesList = (cities) => {
       });
       citiesList.appendChild(li);
     });
-    citiesList.style.display = 'block'; 
+    citiesList.style.display = 'block';  // Отображаем список
   } else {
     citiesList.style.display = 'none'; 
   }
@@ -87,7 +87,7 @@ const displayWeatherData = (data) => {
 // Автозаполнение при вводе текста
 weatherCityInput.addEventListener('input', (e) => {
   const query = e.target.value.trim();
-  if (query.length >= 1) {
+  if (query.length >= 2) {
     fetchCities(query); 
   } else {
     citiesList.style.display = 'none'; 

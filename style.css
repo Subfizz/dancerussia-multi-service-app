@@ -6,9 +6,10 @@ body {
   margin: 0 auto;
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  background-image: url('background-pattern.png'); /* Можно добавить легкий фон */
-  background-size: cover;
-  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 h1 {
@@ -24,6 +25,7 @@ form {
   display: flex;
   gap: 12px;
   margin-bottom: 10px;
+  position: relative;  /* Для правильного позиционирования выпадающего списка */
 }
 
 input[type="text"] {
@@ -70,11 +72,12 @@ button:hover {
   max-height: 250px;
   overflow-y: auto;
   position: absolute;
-  width: 100%;
+  top: 100%;  /* Позиционируем выпадающий список сразу под полем ввода */
+  left: 0;
+  right: 0;
   z-index: 1000;
-  display: none;
+  display: none; /* Сделаем скрытым по умолчанию */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease-in-out;
 }
 
 .cities-list li {
@@ -103,14 +106,17 @@ button:hover {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
-}
-
-.card:hover {
-  transform: translateY(-5px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .card img {
-  width: 50px;
+  width: 100px;
+  height: 100px;
   vertical-align: middle;
+}
+
+.card-text {
+  flex-grow: 1;
 }
