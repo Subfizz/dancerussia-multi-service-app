@@ -21,7 +21,7 @@ form {
   display: flex;
   gap: 12px;
   margin-bottom: 10px;
-  position: relative;  /* Для корректного позиционирования выпадающего списка */
+  position: relative;  /* Для правильного позиционирования выпадающего списка */
 }
 
 input[type="text"] {
@@ -70,7 +70,6 @@ button:hover {
   position: absolute;
   top: 100%;  /* Позиционируем выпадающий список сразу под полем ввода */
   left: 0;     /* Устанавливаем левую границу */
-  width: inherit; /* Устанавливаем ширину на 100% от родителя */
   z-index: 1000;
   display: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
