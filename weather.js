@@ -57,22 +57,7 @@ const updateCitiesList = (cities) => {
   }
 };
 
-// Получение погоды для выбранного города
-const fetchWeatherData = async (city) => {
-  try {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&lang=ru&appid=${WEATHER_API_KEY}`);
-    const data = await response.json();
 
-    if (data.cod !== 200) {
-      alert('Ошибка при получении погоды');
-      return;
-    }
-
-    displayWeatherData(data);
-  } catch (error) {
-    console.error('Ошибка при получении данных о погоде:', error);
-  }
-};
 
 // Отображение данных о погоде
 const displayWeatherData = (data) => {
