@@ -18,6 +18,7 @@ const fetchCities = async (query) => {
 
     // Если данные корректны, продолжаем обновлять datalist
     if (data && data.features && data.features.length > 0) {
+      // Извлекаем города из ответа
       const cities = data.features.map(city => city.properties.city);
       updateCityDatalist(cities);
     } else {
