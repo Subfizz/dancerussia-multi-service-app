@@ -47,6 +47,7 @@ const updateCitiesList = (cities) => {
         weatherCityInput.value = city; // Заполняем поле с городом
         citiesList.style.display = 'none'; // Скрываем список после выбора
         fetchWeatherData(city); // Получаем погоду для выбранного города
+        fetchWeatherForecast(city); // Получаем прогноз на неделю для выбранного города
       });
       citiesList.appendChild(li);
     });
@@ -85,6 +86,70 @@ const displayWeatherData = (data) => {
       <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Иконка погоды" />
     </div>
   `;
+};
+
+// Получение прогноза на неделю для выбранного города
+const fetchWeatherForecast = async (city) => {
+  const coordinates = await fetchCityCoordinates(city);
+  if (!coordinates) return;
+
+  const { lat, lon } = coordinates;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&lang=ru&appid=${WEATHER_API_KEY}`;
+
+  try {
+    const response = await fetch(forecastUrl);
+    const data = await response.json();
+
+    if (data.daily && data.daily.length > 0) {
+      displayWeeklyForecast(data.daily);
+    } else {
+      console.error("Прогноз на неделю не найден");
+    }
+  } catch (error) {
+    console.error('Ошибка при получении прогноза погоды:', error);
+  }
+};
+
+// Получение координат города
+const fetchCityCoordinates = async (city) => {
+  try {
+    const response = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(city)}&apiKey=${GEOAPI_KEY}`);
+    const data = await response.json();
+    if (data.features && data.features.length > 0) {
+      const cityData = data.features[0];
+      const lat = cityData.geometry.coordinates[1];
+      const lon = cityData.geometry.coordinates[0];
+      return { lat, lon };
+    } else {
+      console.error("Город не найден");
+      return null;
+    }
+  } catch (error) {
+    console.error('Ошибка при получении данных о координатах города:', error);
+    return null;
+  }
+};
+
+// Отображение прогноза на неделю
+const displayWeeklyForecast = (dailyData) => {
+  const resultDiv = document.getElementById('weatherResult');
+  let forecastHtml = '<h3>Прогноз на неделю:</h3><ul>';
+
+  dailyData.forEach(day => {
+    const date = new Date(day.dt * 1000);  // Переводим UNIX timestamp в дату
+    const dayName = date.toLocaleDateString('ru-RU', { weekday: 'long' });
+    const temp = day.temp.day.toFixed(1); // Температура в Цельсиях
+    const weatherDescription = day.weather[0].description;
+
+    forecastHtml += `
+      <li>
+        <strong>${dayName}</strong>: ${temp}°C, ${weatherDescription}
+      </li>
+    `;
+  });
+
+  forecastHtml += '</ul>';
+  resultDiv.innerHTML = forecastHtml;
 };
 
 // Автозаполнение при вводе текста

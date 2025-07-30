@@ -68,7 +68,6 @@ button:hover {
   z-index: 1000;
   display: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease, visibility 0s 0.3s;
 }
 
 .cities-list li {
