@@ -70,6 +70,7 @@ button:hover {
   position: absolute;
   top: 100%;  /* Позиционируем выпадающий список сразу под полем ввода */
   left: 0;
+  right: 0;
   z-index: 1000;
   display: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
