@@ -1,6 +1,6 @@
 const WEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a';
 const GEOAPI_KEY = '2dafe698b1ab4005a67ee6434983cd0b'; 
-
+const WEATHER_API_2 = '3cf947a7abe59c012b0712ce7ee9040d'
 const weatherCityInput = document.getElementById('weatherCity');
 const citiesList = document.getElementById('citiesList');
 
@@ -94,7 +94,7 @@ const fetchWeatherForecast = async (city) => {
   if (!coordinates) return;
 
   const { lat, lon } = coordinates;
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&lang=ru&appid=${WEATHER_API_KEY}`;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&lang=ru&appid=${WEATHER_API_2}`;
 
   try {
     const response = await fetch(forecastUrl);
