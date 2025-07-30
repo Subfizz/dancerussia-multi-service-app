@@ -109,6 +109,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .card img {
@@ -119,4 +120,73 @@ button:hover {
 
 .card-text {
   flex-grow: 1;
+}
+
+@media (max-width: 767px) {
+  /* Для мобильных устройств */
+  body {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  input[type="text"] {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .card {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Для очень маленьких экранов */
+  h1 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  input[type="text"] {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .card img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
 }
