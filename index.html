@@ -10,10 +10,12 @@
   <main>
     <h1>Прогноз погоды</h1>
 
-    <form id="weatherForm">
-      <input type="text" id="weatherCity" placeholder="Введите город..." required />
-      <button type="submit">Узнать погоду</button>
-    </form>
+<form id="weatherForm">
+  <input list="cities" type="text" id="weatherCity" placeholder="Введите город..." required />
+  <datalist id="cities"></datalist>
+  <button type="submit">Узнать погоду</button>
+</form>
+
 
     <div class="results" id="weatherResult"></div>
   </main>
@@ -21,3 +23,11 @@
   <script src="weather.js"></script>
 </body>
 </html>
+
+
+git init
+git add .
+git commit -m "init dancerussia-multi-service-app"
+git branch -M main
+git remote add origin https://github.com/Subfizz/dancerussia-multi-service-app.git
+git push -u origin main

@@ -1,4 +1,4 @@
-const WEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a'; 
+const WEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a';
 
 document.getElementById('weatherForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -27,5 +27,32 @@ document.getElementById('weatherForm').addEventListener('submit', async (e) => {
   } catch (error) {
     resultDiv.innerHTML = 'Произошла ошибка при получении данных.';
     console.error(error);
+  }
+});
+
+// Функция для получения городов
+const fetchCities = async (query) => {
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/find?q=${encodeURIComponent(query)}&type=like&sort=population&cnt=10&appid=${WEATHER_API_KEY}`);
+  const data = await response.json();
+  const cities = data.list.map(city => city.name);
+  updateCityDatalist(cities);
+};
+
+// Обновление datalist
+const updateCityDatalist = (cities) => {
+  const datalist = document.getElementById('cities');
+  datalist.innerHTML = '';
+  cities.forEach(city => {
+    const option = document.createElement('option');
+    option.value = city;
+    datalist.appendChild(option);
+  });
+};
+
+// Автозаполнение по мере ввода текста
+document.getElementById('weatherCity').addEventListener('input', (e) => {
+  const query = e.target.value.trim();
+  if (query.length >= 3) {
+    fetchCities(query);
   }
 });
