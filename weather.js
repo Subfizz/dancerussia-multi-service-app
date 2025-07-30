@@ -8,8 +8,8 @@ const citiesList = document.getElementById('citiesList');
 const fetchCities = async (query) => {
   try {
     console.log(`Отправка запроса для города: ${query}`); // Логируем запрос
-    // Запрос к GeoAPI для автозаполнения города
-    const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=10&apiKey=${GEOAPI_KEY}`);
+    // Запрос к GeoAPI для автозаполнения города (добавляем lang=ru)
+    const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=10&apiKey=${GEOAPI_KEY}&lang=ru`);
     
     // Проверка успешности ответа
     if (!response.ok) {
