@@ -18,8 +18,7 @@ const fetchCities = async (query) => {
     console.log('GeoAPI Response:', data); 
 
     if (data && data.features && data.features.length > 0) {
-
-      const cities = data.features.map(city => city.properties.city || city.properties.formatted).filter(Boolean); // Только города
+      const cities = data.features.map(city => city.properties.city || city.properties.formatted).filter(Boolean);
       console.log('Извлеченные города:', cities); 
       updateCitiesList(cities);
     } else {
@@ -43,7 +42,6 @@ const updateCitiesList = (cities) => {
         weatherCityInput.value = city; 
         citiesList.style.display = 'none'; 
         fetchWeatherData(city); 
-        fetchWeatherForecast(city); 
       });
       citiesList.appendChild(li);
     });
@@ -75,10 +73,12 @@ const displayWeatherData = (data) => {
   const resultDiv = document.getElementById('weatherResult');
   resultDiv.innerHTML = `
     <div class="card">
-      <h3>${data.name}, ${data.sys.country}</h3>
-      <p>Температура: ${data.main.temp}°C</p>
-      <p>Погода: ${data.weather[0].description}</p>
-      <p>Ветер: ${data.wind.speed} м/с</p>
+      <div class="card-text">
+        <h3>${data.name}, ${data.sys.country}</h3>
+        <p>Температура: ${data.main.temp}°C</p>
+        <p>Погода: ${data.weather[0].description}</p>
+        <p>Ветер: ${data.wind.speed} м/с</p>
+      </div>
       <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Иконка погоды" />
     </div>
   `;

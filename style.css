@@ -6,9 +6,6 @@ body {
   margin: 0 auto;
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  background-image: url('background-pattern.png'); /* Можно добавить легкий фон */
-  background-size: cover;
-  background-position: center;
 }
 
 h1 {
@@ -41,6 +38,7 @@ input[type="text"]:focus {
   box-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
   border-color: #3498db;
 }
+
 button {
   padding: 15px;
   background-color: #3498db;
@@ -73,8 +71,6 @@ button:hover {
   z-index: 1000;
   display: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease-in-out;
-  left: 0;
 }
 
 .cities-list li {
@@ -103,18 +99,13 @@ button:hover {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
 .card img {
-  width: 100px;  
+  width: 100px;
   height: 100px;
   vertical-align: middle;
 }
