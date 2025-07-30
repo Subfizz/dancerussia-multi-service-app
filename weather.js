@@ -7,53 +7,49 @@ const citiesList = document.getElementById('citiesList');
 // Функция для получения городов через GeoAPI
 const fetchCities = async (query) => {
   try {
-    console.log(`Отправка запроса для города: ${query}`); // Логируем запрос
-    // Запрос к GeoAPI для автозаполнения города с параметром lang=ru для русского языка
+    console.log(`Отправка запроса для города: ${query}`); 
     const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=10&apiKey=${GEOAPI_KEY}&lang=ru`);
     
-    // Проверка успешности ответа
     if (!response.ok) {
       throw new Error(`Ошибка HTTP: ${response.status}`);
     }
 
-    // Получаем и обрабатываем данные
     const data = await response.json();
-    console.log('GeoAPI Response:', data); // Выводим ответ в консоль
+    console.log('GeoAPI Response:', data); 
 
-    // Если данные корректны, продолжаем обновлять citiesList
     if (data && data.features && data.features.length > 0) {
-      // Извлекаем города из ответа
+
       const cities = data.features.map(city => city.properties.city || city.properties.formatted).filter(Boolean); // Только города
-      console.log('Извлеченные города:', cities); // Логируем извлеченные города
+      console.log('Извлеченные города:', cities); 
       updateCitiesList(cities);
     } else {
       console.log('Нет данных о городах');
-      citiesList.style.display = 'none';  // Скрываем список, если нет данных
+      citiesList.style.display = 'none';  
     }
   } catch (error) {
-    console.error('Ошибка при запросе данных:', error); // Логируем ошибки
+    console.error('Ошибка при запросе данных:', error); 
   }
 };
 
 // Обновление кастомного выпадающего списка с городами
 const updateCitiesList = (cities) => {
-  citiesList.innerHTML = ''; // Очищаем старые данные
+  citiesList.innerHTML = ''; 
   
   if (cities.length > 0) {
     cities.forEach(city => {
       const li = document.createElement('li');
-      li.textContent = city; // Название города
+      li.textContent = city; 
       li.addEventListener('click', () => {
-        weatherCityInput.value = city; // Заполняем поле с городом
-        citiesList.style.display = 'none'; // Скрываем список после выбора
-        fetchWeatherData(city); // Получаем погоду для выбранного города
-        fetchWeatherForecast(city); // Получаем прогноз на неделю для выбранного города
+        weatherCityInput.value = city; 
+        citiesList.style.display = 'none'; 
+        fetchWeatherData(city); 
+        fetchWeatherForecast(city); 
       });
       citiesList.appendChild(li);
     });
-    citiesList.style.display = 'block';  // Показываем список
+    citiesList.style.display = 'block'; 
   } else {
-    citiesList.style.display = 'none';  // Скрываем список, если нет городов
+    citiesList.style.display = 'none'; 
   }
 };
 
@@ -88,76 +84,12 @@ const displayWeatherData = (data) => {
   `;
 };
 
-// Получение прогноза на неделю для выбранного города
-const fetchWeatherForecast = async (city) => {
-  const coordinates = await fetchCityCoordinates(city);
-  if (!coordinates) return;
-
-  const { lat, lon } = coordinates;
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&lang=ru&appid=${WEATHER_API_KEY}`;
-
-  try {
-    const response = await fetch(forecastUrl);
-    const data = await response.json();
-
-    if (data.daily && data.daily.length > 0) {
-      displayWeeklyForecast(data.daily);
-    } else {
-      console.error("Прогноз на неделю не найден");
-    }
-  } catch (error) {
-    console.error('Ошибка при получении прогноза погоды:', error);
-  }
-};
-
-// Получение координат города
-const fetchCityCoordinates = async (city) => {
-  try {
-    const response = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(city)}&apiKey=${GEOAPI_KEY}`);
-    const data = await response.json();
-    if (data.features && data.features.length > 0) {
-      const cityData = data.features[0];
-      const lat = cityData.geometry.coordinates[1];
-      const lon = cityData.geometry.coordinates[0];
-      return { lat, lon };
-    } else {
-      console.error("Город не найден");
-      return null;
-    }
-  } catch (error) {
-    console.error('Ошибка при получении данных о координатах города:', error);
-    return null;
-  }
-};
-
-// Отображение прогноза на неделю
-const displayWeeklyForecast = (dailyData) => {
-  const resultDiv = document.getElementById('weatherResult');
-  let forecastHtml = '<h3>Прогноз на неделю:</h3><ul>';
-
-  dailyData.forEach(day => {
-    const date = new Date(day.dt * 1000);  // Переводим UNIX timestamp в дату
-    const dayName = date.toLocaleDateString('ru-RU', { weekday: 'long' });
-    const temp = day.temp.day.toFixed(1); // Температура в Цельсиях
-    const weatherDescription = day.weather[0].description;
-
-    forecastHtml += `
-      <li>
-        <strong>${dayName}</strong>: ${temp}°C, ${weatherDescription}
-      </li>
-    `;
-  });
-
-  forecastHtml += '</ul>';
-  resultDiv.innerHTML = forecastHtml;
-};
-
 // Автозаполнение при вводе текста
 weatherCityInput.addEventListener('input', (e) => {
   const query = e.target.value.trim();
-  if (query.length >= 3) {
-    fetchCities(query); // Запрос к GeoAPI
+  if (query.length >= 2) {
+    fetchCities(query); 
   } else {
-    citiesList.style.display = 'none';  // Скрываем список, если запрос короткий
+    citiesList.style.display = 'none'; 
   }
 });
