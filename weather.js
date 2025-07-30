@@ -46,6 +46,7 @@ const updateCitiesList = (cities) => {
       citiesList.appendChild(li);
     });
     citiesList.style.display = 'block';  // Отображаем список
+    adjustCitiesListPosition();  // Позиционируем список
   } else {
     citiesList.style.display = 'none'; 
   }
@@ -82,6 +83,14 @@ const displayWeatherData = (data) => {
       <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Иконка погоды" />
     </div>
   `;
+};
+
+// Функция для корректного позиционирования выпадающего списка
+const adjustCitiesListPosition = () => {
+  const inputRect = weatherCityInput.getBoundingClientRect();  // Получаем размеры поля ввода
+  citiesList.style.left = `${inputRect.left}px`;  // Устанавливаем левую границу
+  citiesList.style.width = `${inputRect.width}px`;  // Устанавливаем ширину
+  citiesList.style.top = `${inputRect.bottom}px`;  // Устанавливаем позицию сверху, прямо под полем ввода
 };
 
 // Автозаполнение при вводе текста
