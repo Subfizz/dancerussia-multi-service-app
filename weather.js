@@ -1,4 +1,5 @@
 const WEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a';
+const GEO_NAMES_USERNAME = 'subfizz'; // Замените на ваш GeoNames username
 
 document.getElementById('weatherForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -30,11 +31,11 @@ document.getElementById('weatherForm').addEventListener('submit', async (e) => {
   }
 });
 
-// Функция для получения городов по частичному вводу
+// Функция для получения городов через GeoNames
 const fetchCities = async (query) => {
-  const response = await fetch(`https://api.openweathermap.org/data/2.5/find?q=${encodeURIComponent(query)}&type=like&sort=population&cnt=5&appid=${WEATHER_API_KEY}`);
+  const response = await fetch(`http://api.geonames.org/searchJSON?q=${encodeURIComponent(query)}&maxRows=10&username=${GEO_NAMES_USERNAME}`);
   const data = await response.json();
-  const cities = data.list.map(city => city.name);
+  const cities = data.geonames.map(city => city.name);
   updateCityDatalist(cities);
 };
 
