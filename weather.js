@@ -19,8 +19,13 @@ const fetchCities = async (query) => {
 
     // Если данные корректны, продолжаем обновлять datalist
     if (data && data.features && data.features.length > 0) {
-      // Извлекаем города из ответа
-      const cities = data.features.map(city => city.properties.city);
+      // Извлекаем нужные данные из ответа
+      const cities = data.features.map(city => {
+        const cityName = city.properties.city || city.properties.formatted;
+        const state = city.properties.state || '';
+        const country = city.properties.country || '';
+        return `${cityName}, ${state}, ${country}`;  // Формируем строку с городом, районом и страной
+      });
       console.log('Извлеченные города:', cities); // Логируем извлеченные города
       updateCityDatalist(cities);
     } else {
@@ -42,7 +47,7 @@ const updateCityDatalist = (cities) => {
   if (cities.length > 0) {
     cities.forEach(city => {
       const option = document.createElement('option');
-      option.value = city;
+      option.value = city;  // Показать город, район и страну
       datalist.appendChild(option);
     });
   } else {
