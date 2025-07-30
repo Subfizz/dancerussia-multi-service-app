@@ -87,7 +87,7 @@ const displayWeatherData = (data) => {
 // Автозаполнение при вводе текста
 weatherCityInput.addEventListener('input', (e) => {
   const query = e.target.value.trim();
-  if (query.length >= 2) {
+  if (query.length >= 1) {
     fetchCities(query); 
   } else {
     citiesList.style.display = 'none'; 
