@@ -46,7 +46,7 @@ const updateCitiesList = (cities) => {
       citiesList.appendChild(li);
     });
     citiesList.style.display = 'block'; 
-    adjustCitiesListWidth();  // Устанавливаем ширину выпадающего списка
+    adjustCitiesListPosition();  // Устанавливаем позицию выпадающего списка
   } else {
     citiesList.style.display = 'none'; 
   }
@@ -85,10 +85,12 @@ const displayWeatherData = (data) => {
   `;
 };
 
-// Функция для установки ширины выпадающего списка
-const adjustCitiesListWidth = () => {
-  const inputWidth = weatherCityInput.offsetWidth;
-  citiesList.style.width = `${inputWidth}px`;  // Устанавливаем ширину равной ширине поля ввода
+// Функция для корректного позиционирования выпадающего списка
+const adjustCitiesListPosition = () => {
+  const inputRect = weatherCityInput.getBoundingClientRect();  // Получаем координаты поля ввода
+  citiesList.style.left = `${inputRect.left}px`;  // Устанавливаем left
+  citiesList.style.width = `${inputRect.width}px`;  // Устанавливаем ширину
+  citiesList.style.top = `${inputRect.bottom}px`;  // Устанавливаем top
 };
 
 // Автозаполнение при вводе текста
