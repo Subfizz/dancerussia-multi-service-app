@@ -20,18 +20,10 @@ const fetchCities = async (query) => {
     const data = await response.json();
     console.log('GeoAPI Response:', data); // Выводим ответ в консоль
 
-    // Если данные корректны, продолжаем обновлять список городов
+    // Если данные корректны, продолжаем обновлять citiesList
     if (data && data.features && data.features.length > 0) {
       // Извлекаем города из ответа
-      const cities = data.features.map(city => {
-        const cityName = city.properties.city || city.properties.formatted;
-        const state = city.properties.state || '';
-        const country = city.properties.country || '';
-        return {
-          name: `${cityName}, ${state}, ${country}`,
-          full: city.properties.formatted
-        };
-      });
+      const cities = data.features.map(city => city.properties.city).filter(Boolean); // Только города
       console.log('Извлеченные города:', cities); // Логируем извлеченные города
       updateCitiesList(cities);
     } else {
@@ -43,24 +35,24 @@ const fetchCities = async (query) => {
   }
 };
 
-// Обновление списка городов для автозаполнения
+// Обновление кастомного выпадающего списка с городами
 const updateCitiesList = (cities) => {
   citiesList.innerHTML = ''; // Очищаем старые данные
   
   if (cities.length > 0) {
     cities.forEach(city => {
       const li = document.createElement('li');
-      li.textContent = city.name;
+      li.textContent = city; // Название города
       li.addEventListener('click', () => {
-        weatherCityInput.value = city.name;  // Заполняем поле с городом
-        citiesList.style.display = 'none';   // Скрываем список после выбора
-        fetchWeatherData(city.name);        // Получаем погоду для выбранного города
+        weatherCityInput.value = city; // Заполняем поле с городом
+        citiesList.style.display = 'none'; // Скрываем список после выбора
+        fetchWeatherData(city); // Получаем погоду для выбранного города
       });
       citiesList.appendChild(li);
     });
     citiesList.style.display = 'block';  // Показываем список
   } else {
-    citiesList.style.display = 'none';  // Если нет городов, скрываем список
+    citiesList.style.display = 'none';  // Скрываем список, если нет городов
   }
 };
 
