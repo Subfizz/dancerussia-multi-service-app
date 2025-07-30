@@ -1,19 +1,30 @@
 const WEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a';
 const GEOAPI_KEY = '2dafe698b1ab4005a67ee6434983cd0b'; 
+
+// Функция для получения городов через GeoAPI
 const fetchCities = async (query) => {
-  // Запрос к GeoAPI для автозаполнения города
-  const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=10&apiKey=${GEOAPI_KEY}`);
+  try {
+    // Запрос к GeoAPI для автозаполнения города
+    const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=10&apiKey=${GEOAPI_KEY}`);
+    
+    // Проверка успешности ответа
+    if (!response.ok) {
+      throw new Error(`Ошибка HTTP: ${response.status}`);
+    }
 
-  // Отладка: проверка ответа от API
-  const data = await response.json();
-  console.log('GeoAPI Response:', data); // Выводим ответ в консоль
+    // Получаем и обрабатываем данные
+    const data = await response.json();
+    console.log('GeoAPI Response:', data); // Выводим ответ в консоль
 
-  // Если данные корректны, продолжаем обновлять datalist
-  if (data && data.features) {
-    const cities = data.features.map(city => city.properties.city);
-    updateCityDatalist(cities);
-  } else {
-    console.error('Ошибка: Нет данных о городах');
+    // Если данные корректны, продолжаем обновлять datalist
+    if (data && data.features && data.features.length > 0) {
+      const cities = data.features.map(city => city.properties.city);
+      updateCityDatalist(cities);
+    } else {
+      console.log('Нет данных о городах');
+    }
+  } catch (error) {
+    console.error('Ошибка при запросе данных:', error); // Логируем ошибки
   }
 };
 
@@ -27,7 +38,7 @@ const updateCityDatalist = (cities) => {
     datalist.id = 'cities';
     input.parentNode.appendChild(datalist);
   }
-  datalist.innerHTML = '';
+  datalist.innerHTML = ''; // Очищаем старые данные
   cities.forEach(city => {
     const option = document.createElement('option');
     option.value = city;
