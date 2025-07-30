@@ -4,6 +4,7 @@ const GEOAPI_KEY = '2dafe698b1ab4005a67ee6434983cd0b';
 // Функция для получения городов через GeoAPI
 const fetchCities = async (query) => {
   try {
+    console.log(`Отправка запроса для города: ${query}`); // Логируем запрос
     // Запрос к GeoAPI для автозаполнения города
     const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=10&apiKey=${GEOAPI_KEY}`);
     
@@ -20,6 +21,7 @@ const fetchCities = async (query) => {
     if (data && data.features && data.features.length > 0) {
       // Извлекаем города из ответа
       const cities = data.features.map(city => city.properties.city);
+      console.log('Извлеченные города:', cities); // Логируем извлеченные города
       updateCityDatalist(cities);
     } else {
       console.log('Нет данных о городах');
@@ -34,17 +36,26 @@ const updateCityDatalist = (cities) => {
   const input = document.getElementById('weatherCity');
   input.setAttribute('list', 'cities');
   let datalist = document.getElementById('cities');
+  
+  // Проверяем, существует ли datalist
   if (!datalist) {
     datalist = document.createElement('datalist');
     datalist.id = 'cities';
     input.parentNode.appendChild(datalist);
   }
+
   datalist.innerHTML = ''; // Очищаем старые данные
-  cities.forEach(city => {
-    const option = document.createElement('option');
-    option.value = city;
-    datalist.appendChild(option);
-  });
+  
+  // Если есть города, добавляем их в datalist
+  if (cities.length > 0) {
+    cities.forEach(city => {
+      const option = document.createElement('option');
+      option.value = city;
+      datalist.appendChild(option);
+    });
+  } else {
+    console.log('Нет городов для отображения');
+  }
 };
 
 // Автозаполнение при вводе текста
