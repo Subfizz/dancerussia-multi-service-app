@@ -1,6 +1,6 @@
 const WEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a';
 const GEOAPI_KEY = '2dafe698b1ab4005a67ee6434983cd0b'; 
-const WEATHER_API_2 = '3cf947a7abe59c012b0712ce7ee9040d'
+
 const weatherCityInput = document.getElementById('weatherCity');
 const citiesList = document.getElementById('citiesList');
 
@@ -57,6 +57,36 @@ const updateCitiesList = (cities) => {
   }
 };
 
+// Получение погоды для выбранного города
+const fetchWeatherData = async (city) => {
+  try {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&lang=ru&appid=${WEATHER_API_KEY}`);
+    const data = await response.json();
+
+    if (data.cod !== 200) {
+      alert('Ошибка при получении погоды');
+      return;
+    }
+
+    displayWeatherData(data);
+  } catch (error) {
+    console.error('Ошибка при получении данных о погоде:', error);
+  }
+};
+
+// Отображение данных о погоде
+const displayWeatherData = (data) => {
+  const resultDiv = document.getElementById('weatherResult');
+  resultDiv.innerHTML = `
+    <div class="card">
+      <h3>${data.name}, ${data.sys.country}</h3>
+      <p>Температура: ${data.main.temp}°C</p>
+      <p>Погода: ${data.weather[0].description}</p>
+      <p>Ветер: ${data.wind.speed} м/с</p>
+      <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Иконка погоды" />
+    </div>
+  `;
+};
 
 // Получение прогноза на неделю для выбранного города
 const fetchWeatherForecast = async (city) => {
@@ -64,7 +94,7 @@ const fetchWeatherForecast = async (city) => {
   if (!coordinates) return;
 
   const { lat, lon } = coordinates;
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&lang=ru&appid=${WEATHER_API_2}`;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&lang=ru&appid=${WEATHER_API_KEY}`;
 
   try {
     const response = await fetch(forecastUrl);
