@@ -58,21 +58,6 @@ const updateCitiesList = (cities) => {
 };
 
 
-
-// Отображение данных о погоде
-const displayWeatherData = (data) => {
-  const resultDiv = document.getElementById('weatherResult');
-  resultDiv.innerHTML = `
-    <div class="card">
-      <h3>${data.name}, ${data.sys.country}</h3>
-      <p>Температура: ${data.main.temp}°C</p>
-      <p>Погода: ${data.weather[0].description}</p>
-      <p>Ветер: ${data.wind.speed} м/с</p>
-      <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Иконка погоды" />
-    </div>
-  `;
-};
-
 // Получение прогноза на неделю для выбранного города
 const fetchWeatherForecast = async (city) => {
   const coordinates = await fetchCityCoordinates(city);
