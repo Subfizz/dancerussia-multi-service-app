@@ -8,7 +8,7 @@ const citiesList = document.getElementById('citiesList');
 const fetchCities = async (query) => {
   try {
     console.log(`Отправка запроса для города: ${query}`); // Логируем запрос
-    // Запрос к GeoAPI для автозаполнения города (добавляем lang=ru)
+    // Запрос к GeoAPI для автозаполнения города с параметром lang=ru для русского языка
     const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=10&apiKey=${GEOAPI_KEY}&lang=ru`);
     
     // Проверка успешности ответа
@@ -23,7 +23,7 @@ const fetchCities = async (query) => {
     // Если данные корректны, продолжаем обновлять citiesList
     if (data && data.features && data.features.length > 0) {
       // Извлекаем города из ответа
-      const cities = data.features.map(city => city.properties.city).filter(Boolean); // Только города
+      const cities = data.features.map(city => city.properties.city || city.properties.formatted).filter(Boolean); // Только города
       console.log('Извлеченные города:', cities); // Логируем извлеченные города
       updateCitiesList(cities);
     } else {
