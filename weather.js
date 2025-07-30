@@ -1,5 +1,5 @@
 const WEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a';
-const GEO_NAMES_USERNAME = 'subfizz'; // Замените на ваш GeoNames username
+const GEOAPI_KEY = '2dafe698b1ab4005a67ee6434983cd0b'; 
 
 document.getElementById('weatherForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -31,11 +31,16 @@ document.getElementById('weatherForm').addEventListener('submit', async (e) => {
   }
 });
 
-// Функция для получения городов через GeoNames
+// Функция для получения городов через GeoAPI
 const fetchCities = async (query) => {
-  const response = await fetch(`http://api.geonames.org/searchJSON?q=${encodeURIComponent(query)}&maxRows=10&username=${GEO_NAMES_USERNAME}`);
+  // Убедитесь, что кириллица правильно передается в URL
+  const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=10&apiKey=${GEOAPI_KEY}`);
   const data = await response.json();
-  const cities = data.geonames.map(city => city.name);
+  
+  // Получаем список городов, извлекая их из ответа
+  const cities = data.features.map(city => city.properties.city);
+  
+  // Обновляем datalist с городами
   updateCityDatalist(cities);
 };
 
@@ -61,6 +66,6 @@ const updateCityDatalist = (cities) => {
 document.getElementById('weatherCity').addEventListener('input', (e) => {
   const query = e.target.value.trim();
   if (query.length >= 3) {
-    fetchCities(query);
+    fetchCities(query); // Запрос к GeoAPI с кириллицей
   }
 });
