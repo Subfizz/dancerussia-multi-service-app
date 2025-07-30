@@ -1,5 +1,5 @@
-const WEATHERAPI_KEY = 'a1010b1ef1414b8f9fb152349253007';
-const WEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a';
+const OPENWEATHER_API_KEY = '011cd4a12f31ea1e6f91c000720b260a'; // Ваш API-ключ от OpenWeather
+const WEATHER_API_KEY = 'a1010b1ef1414b8f9fb152349253007'; // Ваш API-ключ от WeatherAPI
 const GEOAPI_KEY = '2dafe698b1ab4005a67ee6434983cd0b';
 const weatherCityInput = document.getElementById('weatherCity');
 const citiesList = document.getElementById('citiesList');
@@ -70,7 +70,7 @@ const fetchWeatherData = async (city) => {
     const [lon, lat] = await fetchCityCoordinates(city);
 
     // Получаем данные с OpenWeather для актуальной погоды
-    const openWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric&lang=ru`);
+    const openWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=ru`);
     const openWeatherData = await openWeatherResponse.json();
 
     if (openWeatherData.cod !== 200) {
@@ -79,7 +79,7 @@ const fetchWeatherData = async (city) => {
     }
 
     // Получаем прогноз на неделю с WeatherAPI
-    const weatherApiResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${WEATHERAPI_KEY}&q=${city}&days=7&lang=ru`);
+    const weatherApiResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=7&lang=ru`);
     const weatherApiData = await weatherApiResponse.json();
 
     if (weatherApiData.error) {
