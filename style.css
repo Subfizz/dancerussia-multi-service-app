@@ -25,7 +25,7 @@ form {
   display: flex;
   gap: 12px;
   margin-bottom: 10px;
-  position: relative; /* Для правильного позиционирования выпадающего списка */
+  position: relative; 
 }
 
 input[type="text"] {
@@ -62,7 +62,6 @@ button:hover {
   transform: translateY(-2px);
 }
 
-/* Выпадающий список */
 .cities-list {
   list-style: none;
   padding: 0;
@@ -73,7 +72,7 @@ button:hover {
   max-height: 250px;
   overflow-y: auto;
   position: absolute;
-  top: 100%; /* Позиционируем список под полем ввода */
+  top: 100%; 
   left: 0;
   right: 0;
   z-index: 1000;
@@ -81,7 +80,6 @@ button:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для элементов списка */
 .cities-list li {
   padding: 12px;
   cursor: pointer;
